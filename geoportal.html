@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial Intelligence Portal - Geoportal</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1e2a3e 0%, #2d4263 50%, #1e2a3e 100%);
+            color: #f0f4f8;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .header {
+            margin-bottom: 4rem;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+        }
+
+        .logo {
+            width: 500px;
+            height: 200px;
+            background: linear-gradient(45deg, #5ba3f5, #3585a5, #676eb1, #411b73);
+            border-radius: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+            animation: logoGlow 3s ease-in-out infinite;
+            border: 2px solid rgba(255,255,255,0.2);
+        }
+
+        @keyframes logoGlow {
+            0%, 100% { 
+                box-shadow: 0 15px 50px rgba(0,0,0,0.3);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 0 20px 60px rgba(91,163,245,0.6);
+                transform: scale(1.02);
+            }
+        }
+
+        .logo-text {
+            font-size: 3.2rem;
+            font-weight: 900;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            letter-spacing: 2px;
+            line-height: 1.1;
+            text-align: center;
+        }
+
+        .subtitle {
+            font-size: 1.2rem;
+            color: #d1dce5;
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 0 2rem;
+        }
+
+        .highlight {
+            background: linear-gradient(45deg, #6dd5a8, #5ba3f5, #ffb347, #ff8a95);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: bold;
+            font-size: 1.3rem;
+        }
+
+        .video-section {
+            margin: 4rem 0;
+        }
+
+        .video-container {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.2);
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .play-button {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(45deg, #5ba3f5, #6dd5a8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(91,163,245,0.5);
+        }
+
+        .play-button:hover {
+            transform: scale(1.15);
+            box-shadow: 0 12px 35px rgba(91,163,245,0.7);
+        }
+
+        .play-button::after {
+            content: '▶';
+            color: white;
+            font-size: 2.5rem;
+            margin-left: 8px;
+        }
+
+        .video-title {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+            color: #f8fafc;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2.5rem;
+            margin: 4rem 0;
+            padding: 0 1rem;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 2.5rem 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(255,255,255,0.15);
+            position: relative;
+            overflow: hidden;
+            height: 280px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #5ba3f5, #6dd5a8, #ffb347, #ff8a95);
+            border-radius: 20px 20px 0 0;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+            background: rgba(255,255,255,0.16);
+        }
+
+        .stat-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(45deg, #5ba3f5, #6dd5a8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+            box-shadow: 0 5px 20px rgba(91,163,245,0.4);
+        }
+
+        .stat-number {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #5ba3f5;
+            margin-bottom: 0.8rem;
+            line-height: 1.2;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: #f0f4f8;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+        }
+
+        .stat-sublabel {
+            font-size: 0.9rem;
+            color: #cbd5e0;
+            line-height: 1.4;
+        }
+
+        .explore-button {
+            background: linear-gradient(45deg, #5ba3f5, #6dd5a8);
+            color: white;
+            border: none;
+            padding: 1.2rem 4rem;
+            font-size: 1.3rem;
+            font-weight: 600;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(91,163,245,0.5);
+            margin: 3rem 0;
+            letter-spacing: 1px;
+        }
+
+        .explore-button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 35px rgba(91,163,245,0.7);
+        }
+
+        .aquafish-integration {
+            background: rgba(109,213,168,0.15);
+            backdrop-filter: blur(15px);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 4rem 0;
+            border: 1px solid rgba(109,213,168,0.4);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            scroll-margin-top: 100px;
+        }
+
+        .integration-title {
+            color: #6dd5a8;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .integration-description {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #f0f4f8;
+            margin-bottom: 2rem;
+        }
+
+        .floating-elements {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-element {
+            position: absolute;
+            background: rgba(91,163,245,0.15);
+            border-radius: 50%;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .floating-element:nth-child(1) {
+            width: 120px;
+            height: 120px;
+            top: 15%;
+            left: 8%;
+            animation-delay: 0s;
+        }
+
+        .floating-element:nth-child(2) {
+            width: 180px;
+            height: 180px;
+            top: 55%;
+            right: 8%;
+            animation-delay: 2s;
+        }
+
+        .floating-element:nth-child(3) {
+            width: 100px;
+            height: 100px;
+            bottom: 15%;
+            left: 15%;
+            animation-delay: 4s;
+        }
+
+        .floating-element:nth-child(4) {
+            width: 140px;
+            height: 140px;
+            top: 30%;
+            right: 25%;
+            animation-delay: 6s;
+        }
+
+        @keyframes float {
+            0%, 100% { 
+                transform: translateY(0px) rotate(0deg);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: translateY(-30px) rotate(15deg);
+                opacity: 0.9;
+            }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #5ba3f5, #6dd5a8);
+            color: white;
+            border: none;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(91,163,245,0.4);
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transform: translateY(100px);
+        }
+
+        .scroll-indicator.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .scroll-indicator:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(91,163,245,0.6);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .logo {
+                width: 350px;
+                height: 150px;
+            }
+            
+            .logo-text {
+                font-size: 2.2rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+
+            .stat-card {
+                height: auto;
+                padding: 2rem 1.5rem;
+            }
+
+            .subtitle {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+
+            .explore-button {
+                padding: 1rem 2.5rem;
+                font-size: 1.1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                width: 280px;
+                height: 120px;
+            }
+            
+            .logo-text {
+                font-size: 1.8rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                padding: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="floating-elements">
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+        <div class="floating-element"></div>
+    </div>
+
+    <div class="container">
+        <header class="header">
+            <div class="logo-container">
+                <div class="logo">
+                    <div class="logo-text">SPATIAL<br>INTELLIGENCE<br>PORTAL</div>
+                </div>
+            </div>
+            
+            <p class="subtitle">
+                Spatial Intelligence Portal adalah sebuah platform terpadu yang menghadirkan berbagai tema WebGIS
+                dalam satu tampilan antarmuka yang dinamis dan mudah diakses. Melalui integrasi data spasial dari berbagai sektor
+                mulai dari infrastruktur, lingkungan, pertanian, pendidikan, hingga kebencanaan,
+                geoportal ini menjadi pusat informasi geospasial yang mendukung perencanaan, pengambilan keputusan, serta transparansi data publik.
+            </p>
+            
+            <p class="subtitle">
+                <span class="highlight">Liveable • Investable • Visitable • E-City</span>
+            </p>
+            
+            <p class="subtitle">
+                Portal ini juga dibangun untuk mendukung Kebijakan Satu Peta Pemerintah Republik Indonesia.
+            </p>
+        </header>
+
+        <button class="explore-button" onclick="explorePortal()">🗺️ Menjelajahi Portal</button>
+
+        <div class="video-section">
+            <div class="video-container">
+                <div class="play-button" onclick="playVideo()"></div>
+                <div class="video-title">📹 Teaser Panduan Tangerang Satu Peta</div>
+                <p style="color: #d1dce5; margin-top: 1rem;">Tonton video panduan untuk memahami fitur-fitur portal</p>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div>
+                    <div class="stat-icon">🐟</div>
+                    <div class="stat-number">AquaFish</div>
+                    <div class="stat-label">Sistem Monitoring</div>
+                </div>
+                <div class="stat-sublabel">Tingkat Kualitas Air Tambak<br>Kelurahan Bulak Banteng</div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <div class="stat-icon">🌡️</div>
+                    <div class="stat-number">SurabayaHeatMap</div>
+                    <div class="stat-label">Pemetaan Suhu</div>
+                </div>
+                <div class="stat-sublabel">Data LST<br>Kota Surabaya</div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <div class="stat-icon">🌊</div>
+                    <div class="stat-number">FloodTrack</div>
+                    <div class="stat-label">Monitoring Banjir</div>
+                </div>
+                <div class="stat-sublabel">Data Banjir<br>Kota Surabaya</div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <div class="stat-icon">🌱</div>
+                    <div class="stat-number">BioPorify</div>
+                    <div class="stat-label">Sistem Biopori</div>
+                </div>
+                <div class="stat-sublabel">Rekomendasi Persebaran<br>Biopori</div>
+            </div>
+
+            <div class="stat-card">
+                <div>
+                    <div class="stat-icon">📉</div>
+                    <div class="stat-number">SubsidenceMap</div>
+                    <div class="stat-label">Penurunan Tanah</div>
+                </div>
+                <div class="stat-sublabel">Data Penurunan Muka Tanah<br>Tambak Wedi</div>
+            </div>
+        </div>
+
+        <div class="aquafish-integration" id="aquafish-section">
+            <h3 class="integration-title">🐟 Integrasi AquaFish</h3>
+            <p class="integration-description">Sistem terintegrasi dengan AquaFish untuk monitoring dan analisis data perikanan dan kelautan di wilayah Tangerang. Platform ini menyediakan data real-time kualitas air tambak dan rekomendasi pengelolaan yang optimal.</p>
+            <button class="explore-button" onclick="loadAquaFish()" style="margin-top: 1rem;">
+                🚀 Akses AquaFish System
+            </button>
+        </div>
+    </div>
+
+    <button class="scroll-indicator" onclick="scrollToTop()" title="Kembali ke atas">
+        ↑
+    </button>
+
+    <script>
+        function explorePortal() {
+            // Scroll ke bagian AquaFish integration dengan animasi smooth
+            const aquafishSection = document.getElementById('aquafish-section');
+            aquafishSection.scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'center'
+            });
+            
+            // Tambahkan efek highlight sementara
+            aquafishSection.style.border = '2px solid #6dd5a8';
+            aquafishSection.style.boxShadow = '0 0 30px rgba(109,213,168,0.5)';
+            
+            setTimeout(() => {
+                aquafishSection.style.border = '1px solid rgba(109,213,168,0.4)';
+                aquafishSection.style.boxShadow = '0 10px 40px rgba(0,0,0,0.15)';
+            }, 2000);
+        }
+
+        function playVideo() {
+            alert('▶️ Memutar video panduan...');
+            // Implementasi untuk memutar video
+        }
+
+        function loadAquaFish() {
+            // Integrasi dengan aquafish.html
+            if (confirm('🐟 Apakah Anda ingin membuka sistem AquaFish?')) {
+                // Opsi 1: Buka di tab baru
+                window.open('aquafish.html', '_blank');
+                
+                // Opsi 2: Redirect ke halaman aquafish
+                // window.location.href = 'aquafish.html';
+                
+                // Opsi 3: Load dalam iframe (jika diperlukan)
+                // loadAquaFishIframe();
+            }
+        }
+
+        function loadAquaFishIframe() {
+            const iframe = document.createElement('iframe');
+            iframe.src = 'aquafish.html';
+            iframe.style.width = '100%';
+            iframe.style.height = '600px';
+            iframe.style.border = 'none';
+            iframe.style.borderRadius = '15px';
+            
+            const container = document.querySelector('.aquafish-integration');
+            container.appendChild(iframe);
+        }
+
+        function scrollToTop() {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        }
+
+        // Animasi saat halaman dimuat
+        window.addEventListener('load', function() {
+            const cards = document.querySelectorAll('.stat-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(30px)';
+                card.style.transition = 'all 0.8s ease';
+                
+                setTimeout(() => {
+                    card.style.opacity = '1';
+                    card.style.transform = 'translateY(0)';
+                }, index * 150);
+            });
+
+            // Animasi logo
+            const logo = document.querySelector('.logo');
+            logo.style.opacity = '0';
+            logo.style.transform = 'translateY(-50px)';
+            logo.style.transition = 'all 1s ease';
+            
+            setTimeout(() => {
+                logo.style.opacity = '1';
+                logo.style.transform = 'translateY(0)';
+            }, 300);
+        });
+
+        // Efek parallax untuk elemen floating
+        window.addEventListener('scroll', function() {
+            const scrolled = window.pageYOffset;
+            const elements = document.querySelectorAll('.floating-element');
+            const scrollIndicator = document.querySelector('.scroll-indicator');
+            
+            // Parallax effect
+            elements.forEach((element, index) => {
+                const speed = 0.3 + (index * 0.15);
+                element.style.transform = `translateY(${scrolled * speed}px) rotate(${scrolled * 0.1}deg)`;
+            });
+
+            // Show/hide scroll to top button
+            if (scrolled > 300) {
+                scrollIndicator.classList.add('visible');
+            } else {
+                scrollIndicator.classList.remove('visible');
+            }
+        });
+
+        // Smooth scroll untuk tombol
+        document.querySelectorAll('button').forEach(button => {
+            button.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-3px) scale(1.05)';
+            });
+            
+            button.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0) scale(1)';
+            });
+        });
+
+        // Intersection Observer untuk animasi saat scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, {
+            threshold: 0.1
+        });
+
+        // Observe semua elemen yang perlu animasi
+        document.querySelectorAll('.stat-card, .video-container, .aquafish-integration').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
